@@ -5,7 +5,7 @@ on:
   
 jobs:
   build:
-
+    name: Build go app
     runs-on: ubuntu-latest
     steps:
       - name: to checkout
@@ -21,7 +21,21 @@ jobs:
         with:
           DEPENDENCY_REQUIRED: false
           BUILD_PATH: .
-          
+
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    steps:
+      - name: to checkout
+        uses: actions/checkout@v2: 
+      
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+         SSH_PRIVATE_KEY: ${ { secrets.EC2_SSH_KEY }}
+         REMOTE_HOST: ${ { secrets.HOST_DNS }}
+         REMOTE_USER: ubuntu
+         TARGET: /home/ubuntu
 
      
       
