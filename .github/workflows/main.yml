@@ -15,7 +15,7 @@ jobs:
           go-version: 1.15   
       
       - name: to build 
-        uses: virtuecloud/Composite-actions/Build-Actions/Go_build@test
+        uses: virtuecloud/Composite-actions/Build_Actions/Go_build@test
         with:
           DEPENDENCY_REQUIRED: false
           BUILD_PATH: .
