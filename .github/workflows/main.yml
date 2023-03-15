@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: to checkout
-        uses: actions/checkout@v2: 
+        uses: actions/checkout@v2
       
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
