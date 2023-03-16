@@ -10,8 +10,8 @@ RUN go mod download
 
 COPY *.go ./
 
-RUN go build -o /docker-gs-ping
+RUN go build -o /go-docker-demo
 
 EXPOSE 3000
 
-CMD [ "/docker-gs-ping" ]
+CMD [ "/go-docker-demo" ]
