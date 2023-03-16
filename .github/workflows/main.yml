@@ -42,7 +42,7 @@ jobs:
         env:
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           AWS_REGION: us-east-1
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: test
         run: |
           docker build -t $ECR_REPOSITORY:IMAGE_TAG .
           docker push /$ECR_REPOSITORY:IMAGE_TAG
