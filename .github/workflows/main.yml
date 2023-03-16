@@ -50,16 +50,11 @@ jobs:
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           
       - name: Render Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: gotaskdef-revision1.json
-          container-name: gocont
-          image: ${{ steps.build-image.outputs.image }}
-          
-      - name: Deploy to Amazon ECS service
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: goappservice
-          cluster: goappcluster
+        run:
+          sudo apt-get install jq -y
+          jq --version
+          aws ecs describe-task-definition --task-definition example-service > task-def.json
+          jq .taskDefinition task-def.json > taskdefinition.json
+          jq 'del(.taskDefinitionArn)' taskdefinition.json | jq 'del(.revision)' | jq 'del(.status)' | jq 'del(.requiresAttributes)' | jq 'del(.compatibilities)' | jq 'del(.registeredAt)'| jq 'del(.registeredBy)' > container-definition.json
+          aws ecs register-task-definition --cli-input-json file://container-definition.json #This task-defination-file.json file is important for updating task-defination on aws  
+          aws ecs update-service --cluster -cluster-name --service example-service --task-definition example-service 
