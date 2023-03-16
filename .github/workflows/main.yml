@@ -1,5 +1,9 @@
 on: 
   workflow_dispatch:
+    inputs:
+      bbl:
+        description: "hello"
+        type: string
   
 jobs:
   build:
