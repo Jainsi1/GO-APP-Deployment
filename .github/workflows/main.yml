@@ -60,4 +60,4 @@ jobs:
           jq .taskDefinition task-def.json > taskdefinition.json
           jq 'del(.taskDefinitionArn)' taskdefinition.json | jq 'del(.revision)' | jq 'del(.status)' | jq 'del(.requiresAttributes)' | jq 'del(.compatibilities)' | jq 'del(.registeredAt)'| jq 'del(.registeredBy)' > container-definition.json
           aws ecs register-task-definition --cli-input-json file://container-definition.json  
-          aws ecs update-service --cluster -cluster-name --service example-service --task-definition example-service 
+          aws ecs update-service --cluster cluster-name --service example-service --task-definition example-service 
