@@ -30,7 +30,7 @@ RUN go mod download
 RUN go build -o app
 
 # Expose port 8080 to the outside world
-EXPOSE 8080
+EXPOSE 3000
 
 # Define the command to run the Go app when the container starts
 CMD ["./app"]
