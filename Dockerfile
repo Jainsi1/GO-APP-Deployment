@@ -15,7 +15,7 @@
 
 # ENTRYPOINT ["/docker-gs-ping"]
 
-FROM golang:latest
+FROM --platform=linux/amd64 golang:latest
 WORKDIR /app
 COPY . .
 RUN go get -d -v ./...
