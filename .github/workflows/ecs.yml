@@ -19,7 +19,7 @@ jobs:
           go-version: 1.15   
       
       - name: to build 
-        uses: virtuecloud/Composite-actions/Build_Actions/Go_build@test
+        uses: virtuecloud/Composite-actions/Build/Go_Build@main
         with:
           DEPENDENCY_REQUIRED: false
           BUILD_PATH: .
@@ -27,6 +27,7 @@ jobs:
   deploy:
     name: Deploy to ECS
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: to checkout
         uses: actions/checkout@v2
