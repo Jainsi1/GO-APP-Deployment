@@ -18,8 +18,24 @@
 #!/bin/bash
 
 FROM --platform=linux/amd64 golang:latest
+
 WORKDIR /app
-COPY . .
-RUN go get -d -v ./...
-RUN go install -v ./...
-CMD ["app"]
+
+COPY . /app
+
+# Download and install any required dependencies
+RUN go mod download
+
+# Compile the Go app
+RUN go build -o app
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
+
+# Define the command to run the Go app when the container starts
+CMD ["./app"]
+
+# COPY . .
+# RUN go get -d -v ./...
+# RUN go install -v ./...
+# CMD ["app"]
