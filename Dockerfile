@@ -1,17 +1,15 @@
-# Use an official Golang runtime as a parent image
-FROM golang:1.16-alpine
+# Use an arm64v8 image as the base image
+FROM arm64v8/golang:1.16-alpine3.13
 
-# Set the working directory to /app
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY go.mod ./
+RUN go mod download
 
-# Build the Go app
-RUN go build -o app
+COPY *.go ./
 
-# Expose port 3000 for the container
+RUN go build -o /docker-gs-ping
+
 EXPOSE 3000
 
-# Set the command to run the binary executable
-CMD ["./app"]
+ENTRYPOINT ["/docker-gs-ping"]
