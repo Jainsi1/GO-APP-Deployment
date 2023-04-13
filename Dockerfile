@@ -17,7 +17,7 @@
 
 #!/bin/bash
 
-FROM --platform=linux/amd64 golang:latest
+FROM golang:latest
 
 WORKDIR /app
 
