@@ -1,25 +1,14 @@
-FROM golang:latest AS builder
+FROM golang:1.16-alpine3.13
 
 WORKDIR /app
 
-COPY . /app
-
-# Download and install any required dependencies
+COPY go.mod  ./
 RUN go mod download
 
-# Compile the Go app for arm64
-RUN GOARCH=arm64 go build -o app
+COPY . .
 
-FROM arm64v8/alpine:latest
+RUN go build -o main .
 
-RUN apk update && apk add ca-certificates
-
-WORKDIR /app
-
-COPY --from=builder /app/app .
-
-# Expose port 3000 to the outside world
 EXPOSE 3000
 
-# Define the command to run the Go app when the container starts
-CMD ["./app"]
+CMD ["./main"]
