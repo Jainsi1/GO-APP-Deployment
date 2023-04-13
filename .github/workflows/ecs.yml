@@ -1,15 +1,26 @@
 on: 
   workflow_dispatch:
     inputs:
+      ecrreponame:
+        description: "name of your ecr repository"
+        type: string
+        required: true
+      imgtagname:
+        description: "tag name of image"
+        type: string
+        required: true
       taskdefname:
         description: "name of the task defination"
         type: string
+        required: true
       clustername:
         description: "name of the cluster"
-        type: string  
+        type: string 
+        required: true
       svcname:
         description: "name of the service"
         type: string  
+        required: true
   
 jobs:
   build:
@@ -53,8 +64,8 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: goapp
-          IMAGE_TAG: test
+          ECR_REPOSITORY: ${{ inputs.ecrreponame }
+          IMAGE_TAG: ${{ inputs.imgtagname }
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
