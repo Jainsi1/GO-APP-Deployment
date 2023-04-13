@@ -1,41 +1,17 @@
-# # syntax=docker/dockerfile:1
+# Use an official Golang runtime as a parent image
+FROM golang:1.16-alpine
 
-# FROM golang:1.16-alpine
-
-# WORKDIR /app
-
-# COPY go.mod ./
-# RUN go mod download
-
-# COPY *.go ./
-
-# RUN go build -o /docker-gs-ping
-
-# EXPOSE 3000
-
-# ENTRYPOINT ["/docker-gs-ping"]
-
-#!/bin/bash
-
-FROM golang:latest
-
+# Set the working directory to /app
 WORKDIR /app
 
+# Copy the current directory contents into the container at /app
 COPY . /app
 
-# Download and install any required dependencies
-RUN go mod download
-
-# Compile the Go app
+# Build the Go app
 RUN go build -o app
 
-# Expose port 8080 to the outside world
+# Expose port 3000 for the container
 EXPOSE 3000
 
-# Define the command to run the Go app when the container starts
+# Set the command to run the binary executable
 CMD ["./app"]
-
-# COPY . .
-# RUN go get -d -v ./...
-# RUN go install -v ./...
-# CMD ["app"]
