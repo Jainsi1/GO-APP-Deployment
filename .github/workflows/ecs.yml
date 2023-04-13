@@ -1,9 +1,15 @@
 on: 
   workflow_dispatch:
     inputs:
-      bbl:
-        description: "hello"
+      taskdefname:
+        description: "name of the task defination"
         type: string
+      clustername:
+        description: "name of the cluster"
+        type: string  
+      svcname:
+        description: "name of the service"
+        type: string  
   
 jobs:
   build:
@@ -58,8 +64,8 @@ jobs:
         run: |
           sudo apt-get install jq -y
           jq --version
-          aws ecs describe-task-definition --task-definition gotask > task-def.json
+          aws ecs describe-task-definition --task-definition ${{ inputs.taskdefname }} > task-def.json
           jq .taskDefinition task-def.json > taskdefinition.json
           jq 'del(.taskDefinitionArn)' taskdefinition.json | jq 'del(.revision)' | jq 'del(.status)' | jq 'del(.requiresAttributes)' | jq 'del(.compatibilities)' | jq 'del(.registeredAt)'| jq 'del(.registeredBy)' > container-definition.json
           aws ecs register-task-definition --cli-input-json file://container-definition.json  
-          aws ecs update-service --cluster gotestcluster --service goservice --task-definition gotask 
+          aws ecs update-service --cluster ${{ inputs.clustername }} --service ${{ inputs.svcname }} --task-definition ${{ inputs.taskdefname }} 
